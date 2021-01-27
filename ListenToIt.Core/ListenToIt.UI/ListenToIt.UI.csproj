@@ -7,7 +7,7 @@
     <ProjectGuid>{C0A59236-671E-4687-AA0B-269B9CD25647}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ListenToIt.UI</RootNamespace>
-    <AssemblyName>ListenToIt</AssemblyName>
+    <AssemblyName>ListenToIt.App</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -99,6 +99,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Tools\dict_grabber.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
