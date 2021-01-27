@@ -29,8 +29,7 @@ class CommandLineOptions:
 
         if command == 'action':
             self.__action_command(paras[0].lower())
-
-        if command == "searchword":  # SearchWord command
+        elif command == "searchword":  # SearchWord command
             self.__search_command(paras[0])
 
         return 0
