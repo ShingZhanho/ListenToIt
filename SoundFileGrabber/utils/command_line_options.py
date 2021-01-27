@@ -1,3 +1,6 @@
+import enum
+
+
 class CommandLineOptions:
     """Class for processing command line options"""
     success: bool
@@ -6,6 +9,7 @@ class CommandLineOptions:
     def __init__(self, args):
         self.success = False
         self.word = ''  # Vocabulary to search in dictionary
+        self.action = None
 
         for i in range(0, len(args)-1):
             status = self.__process_argument(args[i+1])
@@ -23,10 +27,21 @@ class CommandLineOptions:
             self.success = False
             return 1    # 1 means the program needs to be stopped immediately
 
-        if command == "search":  # Search command
+        if command == 'action':
+            self.__action_command(paras[0].lower())
+
+        if command == "searchword":  # SearchWord command
             self.__search_command(paras[0])
 
         return 0
 
     def __search_command(self, word):
         self.word = word
+
+    def __action_command(self, action):
+        if action == 'search':
+            self.action = Actions.Search
+
+
+class Actions(enum.Enum):
+    Search = 0
