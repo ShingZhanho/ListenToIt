@@ -22,8 +22,8 @@ class CommandLineOptions:
 
     def __process_argument(self, arg):
         try:
-            command = str(arg).replace("--", "").split(":")[0].lower()
-            paras = str(arg).replace("--", "").split(":")[1].split(";")
+            command = str(arg).replace("--", "").split("#")[0].lower()
+            paras = str(arg).replace("--", "").split("#")[1].split(";")
         except:
             self.success = False
             return 1    # 1 means the program needs to be stopped immediately
@@ -48,7 +48,7 @@ class CommandLineOptions:
         if dir.endswith('\\'):
             self.output_dir = dir
         else:
-            self.output_dir = dir[:-1]
+            self.output_dir = dir + '\\'
 
 
 class Actions(enum.Enum):
