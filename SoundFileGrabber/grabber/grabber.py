@@ -42,14 +42,14 @@ class Grabber:
             self.__add_to_results(entry)
 
     def __add_to_results(self, html):
-        part_of_speech = html.contents[1].select('span.pos.dpos')[0].text
-        uk_url = 'https://dictionary.cambridge.org' + html.contents[1].select('source[type="audio/mpeg"]')[0].attrs['src']
-        us_url = 'https://dictionary.cambridge.org' + html.contents[1].select('source[type="audio/mpeg"]')[1].attrs['src']
-        uk_phonetic = '/' + html.contents[1].select('div.pr.dictionary div.pr.entry-body__el span.pron.dpron span')[0].text + '/'
-        us_phonetic = '/' + html.contents[1].select('div.pr.dictionary div.pr.entry-body__el span.pron.dpron span')[1].text + '/'
+        part_of_speech = html.select('div.pos-header.dpos-h span.pos.dpos')[0].text
+        uk_url = 'https://dictionary.cambridge.org' + html.select('div.pos-header.dpos-h source[type="audio/mpeg"]')[0].attrs['src']
+        us_url = 'https://dictionary.cambridge.org' + html.select('div.pos-header.dpos-h source[type="audio/mpeg"]')[1].attrs['src']
+        uk_phonetic = '/' + html.select('div.pr.dictionary div.pr.entry-body__el div.pos-header.dpos-h span.pron.dpron span')[0].text + '/'
+        us_phonetic = '/' + html.select('div.pr.dictionary div.pr.entry-body__el div.pos-header.dpos-h span.pron.dpron span')[1].text + '/'
 
         # checks for duplicate
-        if self.results.url_is_exist(uk_url) or self.results.url_is_exist(us_url):
-            return
+        # if self.results.url_is_exist(uk_url) or self.results.url_is_exist(us_url):
+        #     return
 
         self.results.add_new_data([part_of_speech, uk_url, uk_phonetic, us_url, us_phonetic])
