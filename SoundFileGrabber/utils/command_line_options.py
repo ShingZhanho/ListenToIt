@@ -10,6 +10,7 @@ class CommandLineOptions:
         self.success = False
         self.word = ''  # Vocabulary to search in dictionary
         self.action = None
+        self.output_dir = ''
 
         for i in range(0, len(args)-1):
             status = self.__process_argument(args[i+1])
@@ -31,6 +32,8 @@ class CommandLineOptions:
             self.__action_command(paras[0].lower())
         elif command == "searchword":  # SearchWord command
             self.__search_command(paras[0])
+        elif command == 'outdir':
+            self.__outdir_command(paras[0])
 
         return 0
 
@@ -40,6 +43,12 @@ class CommandLineOptions:
     def __action_command(self, action):
         if action == 'search':
             self.action = Actions.Search
+
+    def __outdir_command(self, dir):
+        if dir.endswith('\\'):
+            self.output_dir = dir
+        else:
+            self.output_dir = dir[:-1]
 
 
 class Actions(enum.Enum):

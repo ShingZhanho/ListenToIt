@@ -9,13 +9,17 @@ def grab_data(options):
     grabber = Grabber(options.word)
     grabber.grab()
     results = grabber.results
-    if isinstance(results, GrabError):
-        print(results.error_code)
-    elif isinstance(results, GrabResults):
-        print(json.dumps(results.to_json()))
+
+    # Writes data to json file
+    filename = options.output_dir + 'enquiry_results_' + options.word + '.json'
+    with open(filename, 'w', encoding='utf8') as file:
+        file.write(results.to_json().encode().decode('unicode-escape'))
 
 
 if __name__ == '__main__':
+    # PRINTS TOOL VERSION #
+    print('SoundFileGrabber v0.1')
+
     options = CommandLineOptions(sys.argv)
     if not options.success:
         exit(1)  # 1 represents commandline option incorrect
