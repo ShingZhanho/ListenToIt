@@ -30,6 +30,7 @@ class Grabber:
         if request.status_code == 302 or request.url == 'https://dictionary.cambridge.org/dictionary/english/':
             self.results = GrabError('FAILURE_NOT_FOUND', 'The vocabulary could not be found.')
             self.successful = False
+            return
 
         self.__internal_grab(response)
 
