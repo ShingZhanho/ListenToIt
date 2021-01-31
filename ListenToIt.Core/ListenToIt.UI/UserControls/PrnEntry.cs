@@ -16,7 +16,10 @@ namespace ListenToIt.UI.UserControls {
 
         public PrnEntry(string word, string pos, string british, string britishFile, string america,
             string americaFile) : this() {
-
+            lblWord.Text = word;
+            lblPOS.Text = pos;
+            lblBritish.Text = british;
+            lblAmerica.Text = america;
         }
     }
 }

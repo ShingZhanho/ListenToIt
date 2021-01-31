@@ -7,11 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ListenToIt.UI.UserControls;
 
 namespace ListenToIt.UI {
     public partial class FrmMain : Form {
         public FrmMain() {
             InitializeComponent();
+        }
+
+        private void FrmMain_Load(object sender, EventArgs e) {
+            
         }
     }
 }

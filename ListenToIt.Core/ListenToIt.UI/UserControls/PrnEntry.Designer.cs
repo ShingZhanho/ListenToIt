@@ -56,17 +56,21 @@ namespace ListenToIt.UI.UserControls {
             // 
             // btnUK
             // 
+            this.btnUK.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.btnUK.BackgroundImage = global::ListenToIt.UI.Properties.Resources.icon_sound;
             this.btnUK.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnUK.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnUK.Location = new System.Drawing.Point(20, 52);
             this.btnUK.Name = "btnUK";
-            this.btnUK.Size = new System.Drawing.Size(35, 35);
+            this.btnUK.Size = new System.Drawing.Size(35, 33);
             this.btnUK.TabIndex = 2;
             this.btnUK.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(61, 52);
@@ -77,6 +81,8 @@ namespace ListenToIt.UI.UserControls {
             // 
             // lblBritish
             // 
+            this.lblBritish.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.lblBritish.AutoSize = true;
             this.lblBritish.Location = new System.Drawing.Point(61, 68);
             this.lblBritish.Name = "lblBritish";
@@ -86,8 +92,10 @@ namespace ListenToIt.UI.UserControls {
             // 
             // lblAmerica
             // 
+            this.lblAmerica.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAmerica.AutoSize = true;
-            this.lblAmerica.Location = new System.Drawing.Point(222, 68);
+            this.lblAmerica.Location = new System.Drawing.Point(220, 68);
             this.lblAmerica.Name = "lblAmerica";
             this.lblAmerica.Size = new System.Drawing.Size(110, 16);
             this.lblAmerica.TabIndex = 7;
@@ -95,9 +103,11 @@ namespace ListenToIt.UI.UserControls {
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(222, 52);
+            this.label4.Location = new System.Drawing.Point(220, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 16);
             this.label4.TabIndex = 6;
@@ -105,12 +115,14 @@ namespace ListenToIt.UI.UserControls {
             // 
             // btnAmerica
             // 
+            this.btnAmerica.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btnAmerica.BackgroundImage = global::ListenToIt.UI.Properties.Resources.icon_sound;
             this.btnAmerica.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAmerica.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAmerica.Location = new System.Drawing.Point(181, 52);
+            this.btnAmerica.Location = new System.Drawing.Point(179, 52);
             this.btnAmerica.Name = "btnAmerica";
-            this.btnAmerica.Size = new System.Drawing.Size(35, 35);
+            this.btnAmerica.Size = new System.Drawing.Size(35, 33);
             this.btnAmerica.TabIndex = 5;
             this.btnAmerica.UseVisualStyleBackColor = true;
             // 
@@ -118,6 +130,7 @@ namespace ListenToIt.UI.UserControls {
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.lblAmerica);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btnAmerica);
@@ -129,7 +142,7 @@ namespace ListenToIt.UI.UserControls {
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PrnEntry";
-            this.Size = new System.Drawing.Size(358, 97);
+            this.Size = new System.Drawing.Size(356, 95);
             this.ResumeLayout(false);
             this.PerformLayout();
 
