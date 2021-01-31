@@ -24,5 +24,7 @@ namespace ListenToIt.UI.SearchUtil.Cache {
         public CacheManager(string cacheList) {
             
         }
+
+        private List<CacheFile> _cacheFiles;
     }
 }
