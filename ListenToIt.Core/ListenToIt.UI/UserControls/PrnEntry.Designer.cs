@@ -95,7 +95,7 @@ namespace ListenToIt.UI.UserControls {
             this.lblAmerica.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblAmerica.AutoSize = true;
-            this.lblAmerica.Location = new System.Drawing.Point(220, 68);
+            this.lblAmerica.Location = new System.Drawing.Point(256, 68);
             this.lblAmerica.Name = "lblAmerica";
             this.lblAmerica.Size = new System.Drawing.Size(110, 16);
             this.lblAmerica.TabIndex = 7;
@@ -107,7 +107,7 @@ namespace ListenToIt.UI.UserControls {
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(220, 52);
+            this.label4.Location = new System.Drawing.Point(256, 52);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 16);
             this.label4.TabIndex = 6;
@@ -120,7 +120,7 @@ namespace ListenToIt.UI.UserControls {
             this.btnAmerica.BackgroundImage = global::ListenToIt.UI.Properties.Resources.icon_sound;
             this.btnAmerica.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.btnAmerica.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnAmerica.Location = new System.Drawing.Point(179, 52);
+            this.btnAmerica.Location = new System.Drawing.Point(215, 52);
             this.btnAmerica.Name = "btnAmerica";
             this.btnAmerica.Size = new System.Drawing.Size(35, 33);
             this.btnAmerica.TabIndex = 5;
@@ -142,7 +142,7 @@ namespace ListenToIt.UI.UserControls {
             this.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "PrnEntry";
-            this.Size = new System.Drawing.Size(356, 95);
+            this.Size = new System.Drawing.Size(392, 95);
             this.ResumeLayout(false);
             this.PerformLayout();
 

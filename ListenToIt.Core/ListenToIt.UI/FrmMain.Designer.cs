@@ -28,6 +28,7 @@ namespace ListenToIt.UI {
             this.label1 = new System.Windows.Forms.Label();
             this.btnSearch = new System.Windows.Forms.Button();
             this.lblHint = new System.Windows.Forms.Label();
+            this.panelEntries = new System.Windows.Forms.FlowLayoutPanel();
             this.SuspendLayout();
             // 
             // txtSearch
@@ -47,6 +48,7 @@ namespace ListenToIt.UI {
             this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Search for:";
+            this.label1.Visible = false;
             // 
             // btnSearch
             // 
@@ -72,11 +74,22 @@ namespace ListenToIt.UI {
             this.lblHint.Text = "Search anything to get started";
             this.lblHint.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panelEntries
+            // 
+            this.panelEntries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.panelEntries.AutoScroll = true;
+            this.panelEntries.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.panelEntries.Location = new System.Drawing.Point(5, 35);
+            this.panelEntries.Name = "panelEntries";
+            this.panelEntries.Size = new System.Drawing.Size(410, 169);
+            this.panelEntries.TabIndex = 4;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(423, 216);
+            this.Controls.Add(this.panelEntries);
             this.Controls.Add(this.lblHint);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.label1);
@@ -99,6 +112,7 @@ namespace ListenToIt.UI {
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSearch;
         private System.Windows.Forms.Label lblHint;
+        private System.Windows.Forms.FlowLayoutPanel panelEntries;
     }
 }
 

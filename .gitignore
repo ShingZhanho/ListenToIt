@@ -2,7 +2,7 @@
 .vs/
 bin/
 obj/
-/packages/
+packages/
 /_ReSharper.Caches/
 *.user
 .virtualenv/
