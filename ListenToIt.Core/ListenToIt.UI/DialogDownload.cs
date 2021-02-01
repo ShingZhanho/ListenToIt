@@ -151,15 +151,17 @@ namespace ListenToIt.UI {
                 // Download audio files
                 var webClient = new WebClient();
 
+                var downloadPath = Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
                 // UK
-                webClient.DownloadFile(entry["uk_audio_url"].ToString(), 
-                    Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
-                resultEntry.UkFile = Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
+                if (File.Exists(downloadPath)) File.Delete(downloadPath);
+                webClient.DownloadFile(entry["uk_audio_url"].ToString(),downloadPath);
+                resultEntry.UkFile = downloadPath;
 
                 // US
-                webClient.DownloadFile(entry["us_audio_url"].ToString(),
-                    Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
-                resultEntry.UsFile = Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
+                downloadPath = Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
+                if (File.Exists(downloadPath)) File.Delete(downloadPath);
+                webClient.DownloadFile(entry["us_audio_url"].ToString(), downloadPath);
+                resultEntry.UsFile = downloadPath;
 
                 searchResults.Entries.Add(resultEntry);
             }
