@@ -48,7 +48,6 @@ namespace ListenToIt.UI {
             this.label1.Size = new System.Drawing.Size(72, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Search for:";
-            this.label1.Visible = false;
             // 
             // btnSearch
             // 
@@ -59,6 +58,7 @@ namespace ListenToIt.UI {
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "Go";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // lblHint
             // 

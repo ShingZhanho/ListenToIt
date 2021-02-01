@@ -18,5 +18,11 @@ namespace ListenToIt.UI {
         private void FrmMain_Load(object sender, EventArgs e) {
             
         }
+
+        private void btnSearch_Click(object sender, EventArgs e) {
+            // Search and download
+            var searchDialog = new DialogDownload(txtSearch.Text.Replace(" ", "-"));
+            searchDialog.ShowDialog();
+        }
     }
 }
