@@ -66,6 +66,7 @@ namespace ListenToIt.UI.UserControls {
             this.btnUK.Size = new System.Drawing.Size(35, 33);
             this.btnUK.TabIndex = 2;
             this.btnUK.UseVisualStyleBackColor = true;
+            this.btnUK.Click += new System.EventHandler(this.btnUK_Click);
             // 
             // label1
             // 
@@ -125,6 +126,7 @@ namespace ListenToIt.UI.UserControls {
             this.btnAmerica.Size = new System.Drawing.Size(35, 33);
             this.btnAmerica.TabIndex = 5;
             this.btnAmerica.UseVisualStyleBackColor = true;
+            this.btnAmerica.Click += new System.EventHandler(this.btnAmerica_Click);
             // 
             // PrnEntry
             // 
