@@ -20,9 +20,14 @@ namespace ListenToIt.UI {
         }
 
         private void btnSearch_Click(object sender, EventArgs e) {
+            panelEntries.Controls.Clear();
+
             // Search and download
             var searchDialog = new DialogDownload(txtSearch.Text.Replace(" ", "-"));
             searchDialog.ShowDialog();
+            if (searchDialog.Results.Status != DialogDownload.SearchResults.SearchStatus.Success) return;
+            foreach (var entry in searchDialog.Results.Entries) 
+                panelEntries.Controls.Add(entry.GetEntryControl());
         }
     }
 }

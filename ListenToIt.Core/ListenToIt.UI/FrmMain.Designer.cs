@@ -78,7 +78,6 @@ namespace ListenToIt.UI {
             // 
             this.panelEntries.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.panelEntries.AutoScroll = true;
-            this.panelEntries.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.panelEntries.Location = new System.Drawing.Point(5, 35);
             this.panelEntries.Name = "panelEntries";
             this.panelEntries.Size = new System.Drawing.Size(410, 169);

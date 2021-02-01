@@ -10,6 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ListenToIt.UI.UserControls;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -20,6 +21,8 @@ namespace ListenToIt.UI {
         }
 
         public DialogDownload(string word) : this() {
+            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "cache"));
+
             // Search and download here
             var bgw = new BackgroundWorker {
                 WorkerReportsProgress = false, 
@@ -31,7 +34,7 @@ namespace ListenToIt.UI {
             bgw.RunWorkerAsync(arguments);
         }
 
-        public SearchResults Results { get; } = new SearchResults();
+        public SearchResults Results { get; private set; } = new SearchResults();
 
         /// <summary>
         /// Class for search results
@@ -39,10 +42,13 @@ namespace ListenToIt.UI {
         public class SearchResults {
             public SearchStatus Status = SearchStatus.CanceledOrNotFinished;
             public ErrorType Error = ErrorType.NoError;
-            public List<PronunciationEntry> Entries;
+            public List<PronunciationEntry> Entries = new List<PronunciationEntry>();
 
             public class PronunciationEntry {
                 public string Word, Pos, UkLink, UkFile, UkPrn, UsLink, UsFile, UsPrn;
+
+                public UserControls.PrnEntry GetEntryControl() => 
+                    new PrnEntry(Word, Pos, UkPrn, UkFile,UsPrn, UsFile);
             }
 
             public enum SearchStatus {
@@ -69,7 +75,7 @@ namespace ListenToIt.UI {
                 StartInfo = new ProcessStartInfo() {
                     FileName = @".\Tools\dict_grabber.exe",
                     Arguments = $"--Action#Search --SearchWord#{arguments[0]} " + // Use arguments[0] as word to search
-                                $"--OutDir#{Application.StartupPath}",
+                                $"--OutDir#{Path.Combine(Application.StartupPath, "cache")}",
                     UseShellExecute = false,
                     CreateNoWindow = true
                 }
@@ -90,7 +96,7 @@ namespace ListenToIt.UI {
             // Get results
             JObject jo;
             try {
-                jo = JObject.Parse(new StreamReader(Path.Combine(Application.StartupPath,
+                jo = JObject.Parse(new StreamReader(Path.Combine(Application.StartupPath, "cache", 
                     $"enquiry_results_{arguments[0]}.json")).ReadToEnd());
             } catch {
                     results.Add(new SearchResults {
@@ -119,6 +125,7 @@ namespace ListenToIt.UI {
             }
 
             var dir = Path.Combine(Application.StartupPath, "audio", arguments[0].ToString());
+            var searchResults = new SearchResults();
             Directory.CreateDirectory(dir);
 
             foreach (var entry in jo["grabbed_data"]) {
@@ -132,22 +139,41 @@ namespace ListenToIt.UI {
                     return;
                 }
 
+                var resultEntry = new SearchResults.PronunciationEntry {
+                    Pos = entry["part_of_speech"].ToString(),
+                    UkLink = entry["uk_audio_url"].ToString(),
+                    UsLink = entry["us_audio_url"].ToString(),
+                    UkPrn = entry["uk_phonetic"].ToString(),
+                    UsPrn = entry["us_phonetic"].ToString(),
+                    Word = arguments[0].ToString()
+                };
+
                 // Download audio files
                 var webClient = new WebClient();
+
+                // UK
                 webClient.DownloadFile(entry["uk_audio_url"].ToString(), 
                     Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
+                resultEntry.UkFile = Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
+
+                // US
                 webClient.DownloadFile(entry["us_audio_url"].ToString(),
                     Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
+                resultEntry.UsFile = Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp");
+
+                searchResults.Entries.Add(resultEntry);
             }
+
+            searchResults.Status = SearchResults.SearchStatus.Success;
+            searchResults.Error = SearchResults.ErrorType.NoError;
+            results.Add(searchResults);
+            e.Result = results;
         }
 
         private void bgw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
             var results = (List<object>) e.Result;
-
-            // If canceled
-            if (e.Cancelled) {
-
-            }
+            Results = results[0] as SearchResults;
+            Close();
         }
     }
 }

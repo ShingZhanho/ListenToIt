@@ -31,6 +31,7 @@ namespace ListenToIt.UI {
             // pbgStatus
             // 
             this.pbgStatus.Location = new System.Drawing.Point(12, 48);
+            this.pbgStatus.MarqueeAnimationSpeed = 25;
             this.pbgStatus.Name = "pbgStatus";
             this.pbgStatus.Size = new System.Drawing.Size(308, 23);
             this.pbgStatus.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
