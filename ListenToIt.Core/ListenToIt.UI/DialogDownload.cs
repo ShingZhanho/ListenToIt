@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -38,6 +39,11 @@ namespace ListenToIt.UI {
         public class SearchResults {
             public SearchStatus Status = SearchStatus.CanceledOrNotFinished;
             public ErrorType Error = ErrorType.NoError;
+            public List<PronunciationEntry> Entries;
+
+            public class PronunciationEntry {
+                public string Word, Pos, UkLink, UkFile, UkPrn, UsLink, UsFile, UsPrn;
+            }
 
             public enum SearchStatus {
                 Success = 0,
@@ -110,6 +116,28 @@ namespace ListenToIt.UI {
                 }
                 results.Add(error);
                 return;
+            }
+
+            var dir = Path.Combine(Application.StartupPath, "audio", arguments[0].ToString());
+            Directory.CreateDirectory(dir);
+
+            foreach (var entry in jo["grabbed_data"]) {
+                // Check for cancel
+                if (e.Cancel) {
+                    results.Add(new SearchResults {
+                        Status = SearchResults.SearchStatus.CanceledOrNotFinished,
+                        Error = SearchResults.ErrorType.Canceled
+                    });
+                    e.Result = results;
+                    return;
+                }
+
+                // Download audio files
+                var webClient = new WebClient();
+                webClient.DownloadFile(entry["uk_audio_url"].ToString(), 
+                    Path.Combine(dir, $"uk_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
+                webClient.DownloadFile(entry["us_audio_url"].ToString(),
+                    Path.Combine(dir, $"us_{jo["grabbed_data"].ToList().IndexOf(entry)}.mp3.tmp"));
             }
         }
 
