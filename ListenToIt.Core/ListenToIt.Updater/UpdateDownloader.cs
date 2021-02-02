@@ -45,6 +45,13 @@ namespace ListenToIt.Updater {
             public bool IsUpToDate() {
                 return !LatestVersion.IsNewerThan(CurrentVersion);
             }
+
+            /// <summary>
+            /// This class will be serialized as JSON.
+            /// </summary>
+            public class PackageInfo {
+                
+            }
         }
 
         public class Version {
