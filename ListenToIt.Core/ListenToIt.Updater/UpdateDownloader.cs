@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using ListenToIt.Updater.CmdOptions;
+using Newtonsoft.Json;
 using Octokit;
 
 namespace ListenToIt.Updater {
@@ -46,11 +47,30 @@ namespace ListenToIt.Updater {
                 return !LatestVersion.IsNewerThan(CurrentVersion);
             }
 
+            public void WritePackageJson() {
+                var pkgInfo = new PackageInfo {
+                    PackagePath = Path.GetFullPath(Path.Combine(_options.DownloadDir,
+                        Path.GetFileName(LatestRelease.Assets[0].BrowserDownloadUrl))),
+                    PackageVersion = LatestVersion.GetVersionString()
+                };
+                var json = JsonConvert.SerializeObject(pkgInfo);
+                try {
+                    using var writer = new StreamWriter(Path.Combine(_options.DownloadDir,
+                        $"package_info_{LatestVersion.GetVersionString()}.json"));
+                    writer.Write(json);
+                }
+                catch {
+                    Environment.Exit(1); // 1 indicates failure
+                }
+            }
+
             /// <summary>
             /// This class will be serialized as JSON.
             /// </summary>
+            [JsonObject(MemberSerialization.OptOut)]
             public class PackageInfo {
-                
+                public string PackagePath;
+                public string PackageVersion;
             }
         }
 
@@ -87,6 +107,8 @@ namespace ListenToIt.Updater {
                 if (Patch > ver.Patch) return true;
                 return Revision > ver.Revision;
             }
+
+            public string GetVersionString() => $"{Major}.{Minor}.{Patch}.{Revision}-{Suffix.ToString().ToLower()}";
 
             public enum VersionSuffix { Stable, Beta }
         }

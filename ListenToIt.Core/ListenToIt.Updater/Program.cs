@@ -26,6 +26,9 @@ namespace ListenToIt.Updater {
             
             // Download files
             update.DownloadPackage(new Uri(update.LatestRelease.Assets[0].BrowserDownloadUrl));
+            
+            // Writes Json package info
+            update.WritePackageJson();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
