@@ -8,7 +8,7 @@ namespace ListenToIt.Updater {
         static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            // arguments = "DEBUG PARAMETERS".Split(' ');
+            //arguments = "-d C:\\ -v 0.0.0.1-beta -p".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions>(arguments)
@@ -19,8 +19,13 @@ namespace ListenToIt.Updater {
         private static void CheckUpdate(UpdateOptions options) {
             Console.WriteLine("\"check\" command received");
             var update = new UpdateDownloader(options);
+            
+            // Exit if check only is true
             if (options.CheckOnly)
-                Environment.Exit(update.IsUpToDate() ? 0 : 200);
+                Environment.Exit(update.IsUpToDate() ? 201 : 200);
+            
+            // Download files
+            update.DownloadPackage(new Uri(update.LatestRelease.Assets[0].BrowserDownloadUrl));
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {

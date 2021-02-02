@@ -20,13 +20,14 @@ namespace ListenToIt.Updater.CmdOptions {
             Required = true)]
         public string DownloadDir { get; }
 
-        [Option('c', "check", HelpText = "Check for update only, not downloading even available." +
-                                         "If an update is available, the program will exit with code 200.")] 
+        [Option('c', "check", 
+            HelpText = "Check for update only, not downloading even available." + 
+                       "If an update is available, the program will exit with code 200, otherwise 201.")] 
         public bool CheckOnly { get; }
-        
-        [Option('u', "user-cred", Default = null, Min = 2, Max = 2, 
+
+        [Option('u', "user-cred", Default = null, Min = 2, Max = 2,
             HelpText = "GitHub Account for checking update.", Separator = ';')]
-        public IEnumerable<string> UserCredentials { get; } 
+        public IEnumerable<string> UserCredentials { get; }
         
         [Option('p', "prerelease", HelpText = "Include prerelease versions.")]
         public bool IncludePrerelease { get; }

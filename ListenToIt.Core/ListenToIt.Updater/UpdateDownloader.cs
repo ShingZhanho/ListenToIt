@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using ListenToIt.Updater.CmdOptions;
 using Octokit;
 
@@ -9,33 +11,39 @@ namespace ListenToIt.Updater {
             private readonly UpdateOptions _options; // Options fetched from command line
             
             // Information fetched from server
-            private Release _latestRelease;
-            private Version _latestVersion;
-            private readonly Version _currentVersion;
+            public Release LatestRelease;
+            public Version LatestVersion;
+            public readonly Version CurrentVersion;
 
             public UpdateDownloader(UpdateOptions options) {
                 _options = options;
-                _currentVersion = new Version(options.CurrentVersion);
+                CurrentVersion = new Version(options.CurrentVersion);
                 FetchFromServer();
             }
 
             private void FetchFromServer() {
+                // Fetch the latest version from GitHub repository
                 var client = new GitHubClient(new ProductHeaderValue("ListenToIt"));
                 // Apply user password if specified
-                if (_options.UserCredentials != null)
+                if (_options.UserCredentials.ToList().Count == 2)
                     client.Credentials = new Credentials(_options.UserCredentials.ToList()[0],
                             _options.UserCredentials.ToList()[1]);
 
                 var releases = client.Repository.Release.GetAll("ShingZhanho", "ListenToIt").Result;
                 foreach (var release in releases) {
                     if (!_options.IncludePrerelease) if (release.Prerelease) continue; // Skip for beta versions
-                    _latestRelease = release;
-                    _latestVersion = new Version(release.TagName);
+                    LatestRelease = release;
+                    LatestVersion = new Version(release.TagName);
                 }
             }
 
+            public void DownloadPackage(Uri url) {
+                var webClient = new WebClient();
+                webClient.DownloadFile(url, Path.Combine(_options.DownloadDir, Path.GetFileName(url.LocalPath)));
+            }
+
             public bool IsUpToDate() {
-                return !_latestVersion.IsNewerThan(_currentVersion);
+                return !LatestVersion.IsNewerThan(CurrentVersion);
             }
         }
 
