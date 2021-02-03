@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using ListenToIt.Updater.CmdOptions;
+using ListenToIt.Updater.Package;
 using Newtonsoft.Json;
 using Octokit;
 
@@ -62,15 +63,6 @@ namespace ListenToIt.Updater {
                 catch {
                     Environment.Exit(1); // 1 indicates failure
                 }
-            }
-
-            /// <summary>
-            /// This class will be serialized as JSON.
-            /// </summary>
-            [JsonObject(MemberSerialization.OptOut)]
-            public class PackageInfo {
-                public string PackagePath;
-                public string PackageVersion;
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
+using ListenToIt.Updater.Install;
 
 namespace ListenToIt.Updater {
     public static partial class Program {
@@ -33,7 +34,8 @@ namespace ListenToIt.Updater {
         }
 
         private static void InstallUpdate(InstallOptions options) {
-            
+            var installer = new Installer(options);
+            installer.ExtractPackage();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
