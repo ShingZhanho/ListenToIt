@@ -11,8 +11,9 @@ namespace ListenToIt.Updater {
             //arguments = "-d C:\\ -v 0.0.0.1-beta -p".Split(' ');
             
             // Parses command line options
-            Parser.Default.ParseArguments<UpdateOptions>(arguments)
-                .WithParsed(CheckUpdate)
+            Parser.Default.ParseArguments<UpdateOptions, InstallOptions>(arguments)
+                .WithParsed<UpdateOptions>(CheckUpdate)
+                .WithParsed<InstallOptions>(InstallUpdate)
                 .WithNotParsed(ErrorParsingArgs);
         }
 
@@ -29,6 +30,10 @@ namespace ListenToIt.Updater {
             
             // Writes Json package info
             update.WritePackageJson();
+        }
+
+        private static void InstallUpdate(InstallOptions options) {
+            
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
