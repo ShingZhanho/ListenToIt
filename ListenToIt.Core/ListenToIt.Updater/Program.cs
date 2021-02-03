@@ -25,10 +25,11 @@ namespace ListenToIt.Updater {
             // Exit if check only is true
             if (options.CheckOnly)
                 Environment.Exit(update.IsUpToDate() ? 201 : 200);
-            
+
+            if (update.IsUpToDate()) return; // Download only if new version is available
             // Download files
             update.DownloadPackage(new Uri(update.LatestRelease.Assets[0].BrowserDownloadUrl));
-            
+
             // Writes Json package info
             update.WritePackageJson();
         }
