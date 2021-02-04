@@ -19,7 +19,7 @@ namespace ListenToIt.Updater.Package {
             Minor = Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[1]);
             Patch = Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[2]);
             Revision = Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[3]);
-            Suffix = (VersionSuffix) Enum.Parse(typeof(VersionSuffix), rawVersion.Split('-')[0], true);
+            Suffix = (VersionSuffix) Enum.Parse(typeof(VersionSuffix), rawVersion.Split('-')[1], true);
         }
             
         public int Major { get; }
