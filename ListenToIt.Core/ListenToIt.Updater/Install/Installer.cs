@@ -52,21 +52,60 @@ namespace ListenToIt.Updater.Install {
                 var newDir = Path.Combine(Path.GetFullPath(_options.InstallDir), _packageInfo.PackageVersion);
                 Directory.CreateDirectory(newDir);
                 CopyDirectory(dir, newDir);
+                // Delete the copied directory
+                Directory.Delete(dir, true);
+                break;
             }
+            
+            // Copy new runner and its dependencies
+            CopyDirectory(_extractedPath, _options.InstallDir, "new");
+            Directory.Delete(_extractedPath, true);
             
             return this;
         }
         
-        // Copies a directory recursively
+        /// <summary>
+        /// Copies all files and dirs under the specified directory to the destination recursively.
+        /// </summary>
+        /// <param name="directory">The directory whose files and directories will be copied.</param>
+        /// <param name="destination">The destination directory.</param>
         private static void CopyDirectory(string directory, string destination) {
             destination = Path.GetFullPath(destination);
             try {
-                foreach (var dir in Directory.GetDirectories(directory, "*", SearchOption.AllDirectories)) {
+                // Recreate the directories structure in destination.
+                foreach (var dir in Directory.GetDirectories(directory, "*", SearchOption.AllDirectories))
                     Directory.CreateDirectory(Path.Combine(destination, dir.Substring(directory.Length + 1)));
+
+                // Copies all files
+                foreach (var fileName in Directory.GetFiles(directory, "*", SearchOption.AllDirectories))
+                    File.Copy(fileName, Path.Combine(destination, fileName.Substring(directory.Length + 1)));
+            }
+            catch {
+                // ignored
+            }
+        }
+
+        /// <summary>
+        /// Copies all files and dirs under the specified directory to the destination recursively.
+        /// A suffix of the names of copied files and directories will be applied.
+        /// </summary>
+        /// <param name="directory">The directory whose files and directories will be copied.</param>
+        /// <param name="destination">The destination directory.</param>
+        /// <param name="suffix">The suffix to apply.</param>
+        private static void CopyDirectory(string directory, string destination, string suffix) {
+            destination = Path.GetFullPath(destination);
+            try {
+                // Only top level dirs and files will apply the suffix, the others will remain the same
+                foreach (var dir in Directory.GetDirectories(directory)) {
+                    var destDirWithSuffix = Path.Combine(destination, $"{Path.GetFileName(dir)}_{suffix}");
+                    Directory.CreateDirectory(destDirWithSuffix);
+                    CopyDirectory(dir, destDirWithSuffix);
                 }
 
-                foreach (var fileName in Directory.GetFiles(directory, "*", SearchOption.AllDirectories)) {
-                    File.Copy(fileName, Path.Combine(destination, fileName.Substring(directory.Length + 1)));
+                foreach (var fileName in Directory.GetFiles(directory)) {
+                    File.Copy(fileName,
+                        Path.Combine(destination, 
+                            $"{Path.GetFileNameWithoutExtension(fileName)}_{suffix}{Path.GetExtension(fileName)}"));
                 }
             }
             catch {
