@@ -35,6 +35,17 @@ namespace ListenToIt.Updater.Package {
             return Revision > ver.Revision;
         }
 
+        public static bool IsValidRawVersionString(string rawString) {
+            try {
+                var _ = new Version(rawString);
+            }
+            catch {
+                return false;
+            }
+
+            return true;
+        }
+
         public string GetVersionString() => $"{Major}.{Minor}.{Patch}.{Revision}-{Suffix.ToString().ToLower()}";
 
         public enum VersionSuffix { Stable, Beta }

@@ -4,11 +4,13 @@ using ListenToIt.Updater.CmdOptions;
 using ListenToIt.Updater.Package;
 using ICSharpCode.SharpZipLib.Zip;
 using Newtonsoft.Json;
+using Version = ListenToIt.Updater.Package.Version;
 
 namespace ListenToIt.Updater.Install {
     public class Installer {
         private readonly InstallOptions _options;
         private readonly PackageInfo _packageInfo;
+        private string _extractedPath;
         public Installer(InstallOptions options) {
             _options = options;
             
@@ -22,7 +24,7 @@ namespace ListenToIt.Updater.Install {
         /// </summary>
         public Installer ExtractPackage() {
             if (!File.Exists(_options.PackagePath)) return null;
-            
+
             // Extract package
             try {
                 var fastZip = new FastZip();
@@ -34,6 +36,8 @@ namespace ListenToIt.Updater.Install {
                 Console.WriteLine(e);
                 Environment.Exit(1);
             }
+
+            _extractedPath = Path.Combine(Path.GetDirectoryName(_packageInfo.PackagePath), _packageInfo.PackageVersion);
             
             return this;
         }
@@ -42,9 +46,30 @@ namespace ListenToIt.Updater.Install {
         /// Copies the core files of the new package.
         /// </summary>
         public Installer CopyNewVersion() {
-            
+            // Look for the core files in the extracted folders
+            foreach (var dir in Directory.GetDirectories(_extractedPath)) {
+                if (!Version.IsValidRawVersionString(Path.GetFileName(dir))) continue;
+                    CopyDirectory(dir, _options.InstallDir);
+            }
             
             return this;
+        }
+        
+        // Copies a directory recursively
+        private static void CopyDirectory(string directory, string destination) {
+            destination = Path.GetFullPath(destination);
+            try {
+                foreach (var dir in Directory.GetDirectories(directory, "*", SearchOption.AllDirectories)) {
+                    Directory.CreateDirectory(Path.Combine(destination, dir.Substring(directory.Length + 1)));
+                }
+
+                foreach (var fileName in Directory.GetFiles(directory, "*", SearchOption.AllDirectories)) {
+                    File.Copy(fileName, Path.Combine(destination, fileName.Substring(directory.Length + 1)));
+                }
+            }
+            catch {
+                // ignored
+            }
         }
     }
 }
