@@ -9,7 +9,7 @@ namespace ListenToIt.Updater {
         static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            arguments = "install -d ./Cache -p ./Cache/package_info_0.0.1.0-beta.json".Split(' ');
+            // arguments = "install -d ./Cache -p ./Cache/package_info_0.0.1.0-beta.json".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions>(arguments)

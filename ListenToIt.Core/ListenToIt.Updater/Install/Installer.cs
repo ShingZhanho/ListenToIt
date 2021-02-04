@@ -49,7 +49,9 @@ namespace ListenToIt.Updater.Install {
             // Look for the core files in the extracted folders
             foreach (var dir in Directory.GetDirectories(_extractedPath)) {
                 if (!Version.IsValidRawVersionString(Path.GetFileName(dir))) continue;
-                    CopyDirectory(dir, _options.InstallDir);
+                var newDir = Path.Combine(Path.GetFullPath(_options.InstallDir), _packageInfo.PackageVersion);
+                Directory.CreateDirectory(newDir);
+                CopyDirectory(dir, newDir);
             }
             
             return this;
