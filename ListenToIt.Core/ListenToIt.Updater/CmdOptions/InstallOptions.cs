@@ -8,7 +8,9 @@ namespace ListenToIt.Updater.CmdOptions {
         // Required parameters
         public string PackagePath { get; }
 
-        [Option('d', "install-dir", HelpText = "The directory where the package will be installed.", Required = true)]
+        [Option('d', "install-dir", 
+            HelpText = "The directory where the package will be installed. " +
+                       "This should be the directory where ListenToIt.Runner.exe is placed", Required = true)]
         public string InstallDir { get; }
         
         public InstallOptions(string packagePath, string installDir) {

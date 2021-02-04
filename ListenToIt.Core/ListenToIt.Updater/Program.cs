@@ -19,14 +19,13 @@ namespace ListenToIt.Updater {
         }
 
         private static void CheckUpdate(UpdateOptions options) {
-            Console.WriteLine("\"check\" command received");
             var update = new UpdateDownloader(options);
             
             // Exit if check only is true
             if (options.CheckOnly)
                 Environment.Exit(update.IsUpToDate() ? 201 : 200);
 
-            if (update.IsUpToDate()) return; // Download only if new version is available
+            if (update.IsUpToDate()) Environment.Exit(5); // Download only if new version is available. 5 means no updates
             // Download files
             update.DownloadPackage(new Uri(update.LatestRelease.Assets[0].BrowserDownloadUrl));
 
@@ -36,7 +35,9 @@ namespace ListenToIt.Updater {
 
         private static void InstallUpdate(InstallOptions options) {
             var installer = new Installer(options);
-            installer.ExtractPackage();
+            installer
+                .ExtractPackage()
+                .CopyNewVersion();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {

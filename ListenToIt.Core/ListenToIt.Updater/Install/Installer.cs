@@ -37,5 +37,14 @@ namespace ListenToIt.Updater.Install {
             
             return this;
         }
+
+        /// <summary>
+        /// Copies the core files of the new package.
+        /// </summary>
+        public Installer CopyNewVersion() {
+            
+            
+            return this;
+        }
     }
 }

@@ -14,12 +14,12 @@ namespace ListenToIt.Updater {
             
             // Information fetched from server
             public Release LatestRelease;
-            public Version LatestVersion;
-            public readonly Version CurrentVersion;
+            public Package.Version LatestVersion;
+            public readonly Package.Version CurrentVersion;
 
             public UpdateDownloader(UpdateOptions options) {
                 _options = options;
-                CurrentVersion = new Version(options.CurrentVersion);
+                CurrentVersion = new Package.Version(options.CurrentVersion);
                 FetchFromServer();
             }
 
@@ -35,7 +35,7 @@ namespace ListenToIt.Updater {
                 foreach (var release in releases) {
                     if (!_options.IncludePrerelease) if (release.Prerelease) continue; // Skip for beta versions
                     LatestRelease = release;
-                    LatestVersion = new Version(release.TagName);
+                    LatestVersion = new Package.Version(release.TagName);
                 }
             }
 
@@ -64,45 +64,6 @@ namespace ListenToIt.Updater {
                     Environment.Exit(1); // 1 indicates failure
                 }
             }
-        }
-
-        public class Version {
-            public Version(int major, int minor, int patch, int revision, VersionSuffix suffix) {
-                Major = major;
-                Minor = minor;
-                Patch = patch;
-                Revision = revision;
-                Suffix = suffix;
-            }
-
-            /// <summary>
-            /// Construct a Version instance.
-            /// </summary>
-            /// <param name="rawVersion">rawVersion should follow "Major.Minor.Patch.Revision-Suffix" format.</param>
-            public Version(string rawVersion) : this (
-                Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[0]),
-                Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[1]),
-                Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[2]),
-                Convert.ToInt32(rawVersion.Split('-')[0].Split('.')[3]),
-                rawVersion.Split('-')[1] == "stable" ? VersionSuffix.Stable : VersionSuffix.Beta
-                ){}
-            
-            public int Major { get; }
-            public int Minor { get; }
-            public int Patch { get; }
-            public int Revision { get; }
-            public VersionSuffix Suffix { get; }
-
-            public bool IsNewerThan(Version ver) {
-                if (Major > ver.Major) return true;
-                if (Minor > ver.Major) return true;
-                if (Patch > ver.Patch) return true;
-                return Revision > ver.Revision;
-            }
-
-            public string GetVersionString() => $"{Major}.{Minor}.{Patch}.{Revision}-{Suffix.ToString().ToLower()}";
-
-            public enum VersionSuffix { Stable, Beta }
         }
     }
 }
