@@ -42,7 +42,7 @@ namespace ListenToIt.Updater {
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
-            // ignored
+            Environment.Exit(5);
         }
     }
 }
