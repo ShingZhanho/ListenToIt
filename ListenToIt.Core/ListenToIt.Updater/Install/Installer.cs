@@ -112,5 +112,16 @@ namespace ListenToIt.Updater.Install {
                 // ignored
             }
         }
+
+        /// <summary>Removes packages after installation. Optional.</summary>
+        public void RemovePackages() {
+            try {
+                File.Delete(_packageInfo.PackagePath);
+                File.Delete(_options.PackagePath);
+            }
+            catch {
+                // ignored
+            }
+        }
     }
 }

@@ -38,6 +38,7 @@ namespace ListenToIt.Updater {
             installer
                 .ExtractPackage()
                 .CopyNewVersion();
+            if (options.RemoveAfterInstall) installer.RemovePackages();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
