@@ -11,7 +11,7 @@ namespace ListenToIt.Runner.UpdateService.Options {
 
         /// <summary>Gets the command line arguments of current settings.</summary>
         public override string GetCmdArgs() {
-            var args = string.Empty;
+            var args = "check"; // set verb
 
             args = $"{args} -v {CurrentVersion.GetVersionString()}"; // set -v argument
             args = $"{args} -d {Path.GetFullPath(DownloadDir)}"; // set -d argument
