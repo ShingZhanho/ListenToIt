@@ -2,7 +2,7 @@
 using ListenToIt.Runner.UpdateService;
 
 namespace ListenToIt.Runner.UpdateService.Options {
-    public class CheckOptions {
+    public class CheckOptions : BaseOptions {
         public Version CurrentVersion { get; set; }
         public string DownloadDir { get; set; } = string.Empty;
         public bool CheckOnly { get; set; }
@@ -10,7 +10,7 @@ namespace ListenToIt.Runner.UpdateService.Options {
         public bool IncludePrerelease { get; set; }
 
         /// <summary>Gets the command line arguments of current settings.</summary>
-        public string GetCmdArgs() {
+        public override string GetCmdArgs() {
             var args = string.Empty;
 
             args = $"{args} -v {CurrentVersion.GetVersionString()}"; // set -v argument
