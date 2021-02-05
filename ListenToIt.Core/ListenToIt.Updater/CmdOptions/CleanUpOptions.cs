@@ -3,6 +3,11 @@
 namespace ListenToIt.Updater.CmdOptions {
     [Verb("clean", HelpText = "Merge new versions and removes old versions")]
     public class CleanUpOptions {
+        public CleanUpOptions(string cleanUpDir, string mergeSuffix) {
+            CleanUpDir = cleanUpDir;
+            MergeSuffix = mergeSuffix;
+        }
+
         [Option('d', "cleanup-dir", HelpText = "The directory path to clean up.", Required = true)]
         public string CleanUpDir { get; }
         
