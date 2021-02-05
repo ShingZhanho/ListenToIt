@@ -13,7 +13,7 @@ namespace ListenToIt.Updater.CmdOptions {
                        "This should be the directory where ListenToIt.Runner.exe is placed", Required = true)]
         public string InstallDir { get; }
         
-        [Option('r', "remove", Default = false, HelpText = "Remove downloaded package after install.")]
+        [Option('r', "remove", HelpText = "Remove downloaded package after install.")]
         public bool RemoveAfterInstall { get; }
         
         public InstallOptions(string packagePath, string installDir, bool removeAfterInstall) {
