@@ -61,8 +61,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CmdOptions\CleanUpOptions.cs" />
     <Compile Include="CmdOptions\InstallOptions.cs" />
     <Compile Include="CmdOptions\UpdateOptions.cs" />
+    <Compile Include="Install\CleanUpHelper.cs" />
     <Compile Include="Install\Installer.cs" />
     <Compile Include="Install\UpdateDownloader.cs" />
     <Compile Include="Package\PackageInfo.cs" />

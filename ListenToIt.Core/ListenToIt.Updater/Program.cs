@@ -12,9 +12,10 @@ namespace ListenToIt.Updater {
             // arguments = "install -d ./Cache/Install -p ./Cache/package_info_0.0.1.0-beta.json".Split(' ');
             
             // Parses command line options
-            Parser.Default.ParseArguments<UpdateOptions, InstallOptions>(arguments)
+            Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
                 .WithParsed<UpdateOptions>(CheckUpdate)
                 .WithParsed<InstallOptions>(InstallUpdate)
+                .WithParsed<CleanUpOptions>(CleanUp)
                 .WithNotParsed(ErrorParsingArgs);
         }
 
@@ -39,6 +40,10 @@ namespace ListenToIt.Updater {
                 .ExtractPackage()
                 .CopyNewVersion();
             if (options.RemoveAfterInstall) installer.RemovePackages();
+        }
+
+        private static void CleanUp(CleanUpOptions options) {
+            
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
