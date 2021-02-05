@@ -1,4 +1,5 @@
-﻿using CommandLine;
+﻿using System.IO;
+using CommandLine;
 
 namespace ListenToIt.Updater.CmdOptions {
     [Verb("install", HelpText = "Installs update package to the specified directory.")]
@@ -17,8 +18,8 @@ namespace ListenToIt.Updater.CmdOptions {
         public bool RemoveAfterInstall { get; }
         
         public InstallOptions(string packagePath, string installDir, bool removeAfterInstall) {
-            PackagePath = packagePath;
-            InstallDir = installDir;
+            PackagePath = Path.GetFullPath(packagePath);
+            InstallDir = Path.GetFullPath(installDir);
             RemoveAfterInstall = removeAfterInstall;
         }
     }

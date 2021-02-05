@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using CommandLine;
 
 namespace ListenToIt.Updater.CmdOptions {
@@ -38,7 +39,7 @@ namespace ListenToIt.Updater.CmdOptions {
             IEnumerable<string> userCredentials,
             bool includePrerelease) {
             CurrentVersion = currentVersion;
-            DownloadDir = downloadDir;
+            DownloadDir = Path.GetFullPath(downloadDir);
             CheckOnly = checkOnly;
             UserCredentials = userCredentials;
             IncludePrerelease = includePrerelease;

@@ -1,10 +1,11 @@
-﻿using CommandLine;
+﻿using System.IO;
+using CommandLine;
 
 namespace ListenToIt.Updater.CmdOptions {
     [Verb("clean", HelpText = "Merge new versions and removes old versions")]
     public class CleanUpOptions {
         public CleanUpOptions(string cleanUpDir, string mergeSuffix) {
-            CleanUpDir = cleanUpDir;
+            CleanUpDir = Path.GetFullPath(cleanUpDir);
             MergeSuffix = mergeSuffix;
         }
 
