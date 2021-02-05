@@ -1,6 +1,7 @@
 ﻿using System;
 
 namespace ListenToIt.Runner.UpdateService {
+    [Obsolete("This Version class applies to old version rule which is no longer used. Use Version2 class.")]
     public class Version {
         public Version(int major, int minor, int patch, int revision, VersionSuffix suffix) {
             Major = major;
