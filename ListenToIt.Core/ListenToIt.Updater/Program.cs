@@ -43,7 +43,8 @@ namespace ListenToIt.Updater {
         }
 
         private static void CleanUp(CleanUpOptions options) {
-            
+            var cleanupHelper = new CleanUpHelper(options);
+            cleanupHelper.Merge();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
