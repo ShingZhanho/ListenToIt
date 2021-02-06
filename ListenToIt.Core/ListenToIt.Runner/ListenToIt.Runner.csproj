@@ -52,6 +52,7 @@
         <Compile Include="UpdateService\Options\CheckOptions.cs" />
         <Compile Include="UpdateService\Options\CleanUpOptions.cs" />
         <Compile Include="UpdateService\Options\InstallOptions.cs" />
+        <Compile Include="UpdateService\Updater.cs" />
         <Compile Include="UpdateService\Version.cs" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
