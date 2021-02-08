@@ -1,11 +1,16 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using ListenToIt.Runner.UpdateService.Options;
 
 namespace ListenToIt.Runner.UpdateService {
-    public static class Updater {
+    public class Updater {
         public static int CheckUpdate(CheckOptions options) => StartUpdater(options.GetCmdArgs());
+
+        public static async Task<int> CheckUpdateAsync(CheckOptions options) {
+            return await Task.Run(() => CheckUpdate(options));
+        }
 
         private static int StartUpdater(string args) {
             var suProcess = new Process {
