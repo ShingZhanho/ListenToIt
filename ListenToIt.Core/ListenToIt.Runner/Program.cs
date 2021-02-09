@@ -74,8 +74,28 @@ namespace ListenToIt.Runner {
             appProcess.WaitForExit();
         }*/
 
+        // The latest installed version on this computer
+        public static Version LatestVersion;
+
         public static void Main() {
-            
+            LatestVersion = GetLatest();
+        }
+
+        private static Version GetLatest() {
+            var versions = Directory.GetDirectories(Application.StartupPath)
+                .Where(dir => Version.IsValidRawVersionString(Path.GetFileName(dir)))
+                .Where(dir => File.Exists(Path.Combine(dir, "ListenToIt.App.exe"))).ToList();
+
+            Version latest = null;
+            for (var i = 1; i < versions.Count; i++) {
+                var ver = new Version[] {
+                    new Version(Path.GetFileName(versions[i - 1])),
+                    new Version(Path.GetFileName(versions[i]))
+                };
+                latest = ver[1].IsNewerThan(ver[0]) ? ver[1] : ver[0];
+            }
+
+            return latest;
         }
     }
 }
