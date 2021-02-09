@@ -16,7 +16,7 @@ namespace ListenToIt.Runner.UpdateService.Options {
             args = $"{args} -v {CurrentVersion.GetVersionString()}"; // set -v argument
             args = $"{args} -d {Path.GetFullPath(DownloadDir)}"; // set -d argument
             args = CheckOnly ? $"{args} -c" : args; // set -c flag
-            if (UserCredentials.Length == 2)
+            if (UserCredentials.Length == 2 && !(UserCredentials[0] is null) && !(UserCredentials[1] is null))
                 args = $"{args} -u {UserCredentials[0]} {UserCredentials[1]}"; // set -u argument
             args = IncludePrerelease ? $"{args} -p" : args; // set -p flag
 
