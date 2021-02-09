@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ListenToIt.Runner.UpdateService;
@@ -76,9 +77,28 @@ namespace ListenToIt.Runner {
 
         // The latest installed version on this computer
         public static Version LatestVersion;
+        public static bool UpdateAvailable, UpdateDownloaded;
 
         public static void Main() {
             LatestVersion = GetLatest();
+            if (LatestVersion is null) Environment.Exit(1); // exits if no versions installed.
+
+            // Check update
+            var updateThread = new Thread(CheckAndDownload);
+            updateThread.Start();
+            
+            // Run app
+            var exePath = 
+                Path.Combine(Application.StartupPath, LatestVersion.GetVersionString(), "ListenToIt.App.exe");
+            var appProc = new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = exePath,
+                    UseShellExecute = false,
+                    CreateNoWindow = false
+                }
+            };
+            appProc.Start();
+            appProc.WaitForExit();
         }
 
         private static Version GetLatest() {
@@ -96,6 +116,10 @@ namespace ListenToIt.Runner {
             }
 
             return latest;
+        }
+
+        private static void CheckAndDownload() {
+            // call this method in a new thread
         }
     }
 }
