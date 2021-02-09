@@ -12,7 +12,8 @@ using Version = ListenToIt.Runner.UpdateService.Version;
 
 namespace ListenToIt.Runner {
     public static class Program {
-        public static void Main() {
+        // The below code is under rebuild
+        /*public static void Main() {
             // Check for internet connection
             var networkIsConnected = false;
             try {
@@ -66,11 +67,15 @@ namespace ListenToIt.Runner {
             if (networkIsConnected) {
                 if (checkTask.Result == 200) {
                     checkOptions.CheckOnly = false;
-                    //TODO: Download if available
+                    
                 }
             }
             
             appProcess.WaitForExit();
+        }*/
+
+        public static void Main() {
+            
         }
     }
 }
