@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using ListenToIt.Runner.UpdateService;
 using ListenToIt.Runner.UpdateService.Options;
@@ -17,6 +16,27 @@ namespace ListenToIt.Runner {
         private static bool _updateAvailable, _updateDownloaded;
 
         public static void Main() {
+            // Removes updater temporary dir
+            if (Directory.Exists(Path.Combine(Application.StartupPath, "SU_temp")))
+                Directory.Delete(Path.Combine(Application.StartupPath, "SU_temp"), true);
+            
+            // Cleanup if new version installed before start app
+            var cleanNeeded = Directory.GetDirectories(Application.StartupPath)
+                .Where(dir => Path.GetFileName(dir).EndsWith("_new"))
+                .ToList()
+                .AddToEnd(
+                    Directory.GetFiles(Application.StartupPath)
+                        .Where(file => Path.GetFileNameWithoutExtension(file).EndsWith("_new")))
+                .Count != 0;
+
+            if (cleanNeeded) {
+                var cleanOpts = new CleanUpOptions {
+                    CleanUpDir = Application.StartupPath,
+                    MergeSuffix = "new"
+                };
+                Updater.Run(cleanOpts);
+            }
+            
             _localLatestVersion = GetLatest();
             if (_localLatestVersion is null) Environment.Exit(1); // exits if no versions installed.
 
@@ -110,6 +130,12 @@ namespace ListenToIt.Runner {
                 RemoveAfterInstall = false
             };
             Updater.Run(installOpts);
+        }
+        
+        // Extension method for list
+        public static List<string> AddToEnd(this List<string> originList, IEnumerable<string> listToAdd) {
+            originList.AddRange(listToAdd);
+            return originList;
         }
     }
 }
