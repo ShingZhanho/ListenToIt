@@ -7,6 +7,8 @@ using ListenToIt.Runner.UpdateService.Options;
 namespace ListenToIt.Runner.UpdateService {
     public class Updater {
         public static int Run(CheckOptions options) => StartUpdater(options.GetCmdArgs());
+        public static int Run(InstallOptions options) => StartUpdater(options.GetCmdArgs());
+        public static int Run(CleanUpOptions options) => StartUpdater(options.GetCmdArgs());
 
         private static int StartUpdater(string args) {
             var suProcess = new Process {
