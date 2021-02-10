@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
 using ListenToIt.Updater.Install;
 
 namespace ListenToIt.Updater {
-    public static partial class Program {
-        static void Main(string[] args) {
+    public static class Program {
+        public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            // arguments = "clean -d ./Cache/Install --suffix new".Split(' ');
+            // arguments = "clean -d E:/ListenToIt/ListenToIt.Core/ListenToIt.Runner/bin/Debug -s new".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
@@ -43,11 +46,27 @@ namespace ListenToIt.Updater {
         }
 
         private static void CleanUp(CleanUpOptions options) {
+            // Kills the existing process
+            var procList = Process.GetProcessesByName("ListenToIt.Runner");
+            foreach (var proc in procList) proc.Kill();
+            
             var cleanupHelper = new CleanUpHelper(options);
             cleanupHelper.Merge();
+            
+            // Restart the Runner
+            new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = Path.Combine(Path.GetFullPath("../"), "ListenToIt.Runner.exe"),
+                    CreateNoWindow = false,
+                    UseShellExecute = true
+                }
+            }.Start();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
+            foreach (var error in errors.ToList()) {
+                Console.WriteLine(error.Tag.ToString());
+            }
             Environment.Exit(5);
         }
     }
