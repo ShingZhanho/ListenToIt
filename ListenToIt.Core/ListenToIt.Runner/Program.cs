@@ -50,8 +50,8 @@ namespace ListenToIt.Runner {
             var appProc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = exePath,
-                    UseShellExecute = false,
-                    CreateNoWindow = false
+                    UseShellExecute = true,
+                    WorkingDirectory = exePath.Replace(Path.GetFileName(exePath), string.Empty)
                 }
             };
             appProc.Start();
