@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
@@ -44,6 +45,10 @@ namespace ListenToIt.Updater {
         }
 
         private static void CleanUp(CleanUpOptions options) {
+            // Kills the existing process
+            var procList = Process.GetProcessesByName("ListenToIt.Runner");
+            foreach (var proc in procList) proc.Kill();
+            
             var cleanupHelper = new CleanUpHelper(options);
             cleanupHelper.Merge();
         }

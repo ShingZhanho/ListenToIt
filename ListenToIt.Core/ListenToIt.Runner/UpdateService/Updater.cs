@@ -8,9 +8,9 @@ namespace ListenToIt.Runner.UpdateService {
     public class Updater {
         public static int Run(CheckOptions options) => StartUpdater(options.GetCmdArgs());
         public static int Run(InstallOptions options) => StartUpdater(options.GetCmdArgs());
-        public static int Run(CleanUpOptions options) => StartUpdater(options.GetCmdArgs());
+        public static int Run(CleanUpOptions options) => StartUpdater(options.GetCmdArgs(), false);
 
-        private static int StartUpdater(string args) {
+        private static int StartUpdater(string args, bool wait = true) {
             var suProcess = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = Path.Combine(Application.StartupPath, "SU\\ListenToIt.Updater.exe"),
@@ -20,7 +20,7 @@ namespace ListenToIt.Runner.UpdateService {
                 }
             };
             suProcess.Start();
-            suProcess.WaitForExit();
+            if (wait) suProcess.WaitForExit();
             return suProcess.ExitCode;
         }
     }
