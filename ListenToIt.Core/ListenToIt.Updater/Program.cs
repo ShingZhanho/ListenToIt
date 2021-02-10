@@ -10,11 +10,11 @@ namespace ListenToIt.Updater {
         public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            arguments = "check --current-version 0.0.0.1-beta --download-dir ./Cache --check -p".Split(' ');
+            // arguments = "check --current-version 0.0.0.1-beta --download-dir ./Cache --check -p".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
-                .WithParsed<UpdateOptions>(uOpts => CheckUpdate(uOpts))
+                .WithParsed<UpdateOptions>(CheckUpdate)
                 .WithParsed<InstallOptions>(InstallUpdate)
                 .WithParsed<CleanUpOptions>(CleanUp)
                 .WithNotParsed(ErrorParsingArgs);
@@ -52,6 +52,7 @@ namespace ListenToIt.Updater {
             foreach (var error in errors.ToList()) {
                 Console.WriteLine(error.Tag.ToString());
             }
+            Environment.Exit(5);
         }
     }
 }
