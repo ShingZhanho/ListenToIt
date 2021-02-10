@@ -37,6 +37,7 @@ namespace ListenToIt.Updater.Install {
                         continue; // Skip for beta versions
                 LatestRelease = release;
                 LatestVersion = new Package.Version(release.TagName);
+                break;
             }
         }
 
