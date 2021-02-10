@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
 using ListenToIt.Updater.Install;
 
 namespace ListenToIt.Updater {
-    public static partial class Program {
-        static void Main(string[] args) {
+    public static class Program {
+        public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            // arguments = "clean -d ./Cache/Install --suffix new".Split(' ');
+            arguments = "check --current-version 0.0.0.1-beta --download-dir ./Cache --check -p".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
-                .WithParsed<UpdateOptions>(CheckUpdate)
+                .WithParsed<UpdateOptions>(uOpts => CheckUpdate(uOpts))
                 .WithParsed<InstallOptions>(InstallUpdate)
                 .WithParsed<CleanUpOptions>(CleanUp)
                 .WithNotParsed(ErrorParsingArgs);
@@ -48,7 +49,9 @@ namespace ListenToIt.Updater {
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
-            Environment.Exit(5);
+            foreach (var error in errors.ToList()) {
+                Console.WriteLine(error.Tag.ToString());
+            }
         }
     }
 }
