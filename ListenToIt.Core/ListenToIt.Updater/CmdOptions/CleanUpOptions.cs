@@ -8,8 +8,8 @@ namespace ListenToIt.Updater.CmdOptions {
         private string _mergeSuffix;
 
         public CleanUpOptions(string cleanUpDir, string mergeSuffix) {
-            _cleanUpDir = Path.GetFullPath(cleanUpDir);
-            _mergeSuffix = mergeSuffix;
+            CleanUpDir = Path.GetFullPath(cleanUpDir);
+            MergeSuffix = mergeSuffix;
         }
         
         public CleanUpOptions() { }
@@ -17,10 +17,13 @@ namespace ListenToIt.Updater.CmdOptions {
         [Option('d', "cleanup-dir", HelpText = "The directory path to clean up.", Required = true)]
         public string CleanUpDir {
             get => _cleanUpDir;
-            set => _cleanUpDir = Path.GetFullPath(_cleanUpDir);
+            set => _cleanUpDir = Path.GetFullPath(value);
         }
 
         [Option('s', "suffix", HelpText = "Defines dirs and files with this suffix will be merged", Required = true)]
-        public string MergeSuffix => _mergeSuffix;
+        public string MergeSuffix {
+            get => _mergeSuffix;
+            set => _mergeSuffix = value;
+        }
     }
 }

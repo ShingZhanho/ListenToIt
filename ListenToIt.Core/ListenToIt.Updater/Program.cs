@@ -11,7 +11,7 @@ namespace ListenToIt.Updater {
         public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            // arguments = "check --current-version 0.0.0.1-beta --download-dir ./Cache --check -p".Split(' ');
+            // arguments = "clean -d E:/ListenToIt/ListenToIt.Core/ListenToIt.Runner/bin/Debug -s new".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
