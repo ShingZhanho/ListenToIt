@@ -1,6 +1,8 @@
 # Listen to It
 A really simple tool for listening a word's pronounciation.
 
+![Build](https://github.com/ShingZhanho/ListenToIt/workflows/.NET%20Framework%20Build%20Actions/badge.svg)
+
 ## Introduction
 This application is built with WinForm, but will soon be rebuilt with WPF.
 

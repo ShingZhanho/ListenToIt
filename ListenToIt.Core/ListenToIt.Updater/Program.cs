@@ -1,35 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
+using ListenToIt.Updater.Install;
 
 namespace ListenToIt.Updater {
-    public static partial class Program {
-        static void Main(string[] args) {
+    public static class Program {
+        public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            //arguments = "-d C:\\ -v 0.0.0.1-beta -p".Split(' ');
+            // arguments = "clean -d E:/ListenToIt/ListenToIt.Core/ListenToIt.Runner/bin/Debug -s new".Split(' ');
             
             // Parses command line options
-            Parser.Default.ParseArguments<UpdateOptions>(arguments)
-                .WithParsed(CheckUpdate)
+            Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)
+                .WithParsed<UpdateOptions>(CheckUpdate)
+                .WithParsed<InstallOptions>(InstallUpdate)
+                .WithParsed<CleanUpOptions>(CleanUp)
                 .WithNotParsed(ErrorParsingArgs);
         }
 
         private static void CheckUpdate(UpdateOptions options) {
-            Console.WriteLine("\"check\" command received");
             var update = new UpdateDownloader(options);
             
             // Exit if check only is true
             if (options.CheckOnly)
                 Environment.Exit(update.IsUpToDate() ? 201 : 200);
-            
+
+            if (update.IsUpToDate()) Environment.Exit(5); // Download only if new version is available. 5 means no updates
             // Download files
             update.DownloadPackage(new Uri(update.LatestRelease.Assets[0].BrowserDownloadUrl));
+
+            // Writes Json package info
+            update.WritePackageJson();
+        }
+
+        private static void InstallUpdate(InstallOptions options) {
+            var installer = new Installer(options);
+            installer
+                .ExtractPackage()
+                .CopyNewVersion();
+            if (options.RemoveAfterInstall) installer.RemovePackages();
+        }
+
+        private static void CleanUp(CleanUpOptions options) {
+            // Kills the existing process
+            var procList = Process.GetProcessesByName("ListenToIt.Runner");
+            foreach (var proc in procList) proc.Kill();
+            
+            var cleanupHelper = new CleanUpHelper(options);
+            cleanupHelper.Merge();
+            
+            // Restart the Runner
+            new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = Path.Combine(Path.GetFullPath("../"), "ListenToIt.Runner.exe"),
+                    CreateNoWindow = false,
+                    UseShellExecute = true
+                }
+            }.Start();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
-            // ignored
+            foreach (var error in errors.ToList()) {
+                Console.WriteLine(error.Tag.ToString());
+            }
+            Environment.Exit(5);
         }
     }
 }

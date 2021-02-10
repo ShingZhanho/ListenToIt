@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListenToIt.Updater", "Liste
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListenToIt.App", "ListenToIt.App\ListenToIt.App.csproj", "{8ADBB319-2D54-4AC9-8248-CFC747C41B1C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ListenToIt.Runner", "ListenToIt.Runner\ListenToIt.Runner.csproj", "{B7FA6708-5908-41C8-8E70-85144C1CA3DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8ADBB319-2D54-4AC9-8248-CFC747C41B1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ADBB319-2D54-4AC9-8248-CFC747C41B1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ADBB319-2D54-4AC9-8248-CFC747C41B1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7FA6708-5908-41C8-8E70-85144C1CA3DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7FA6708-5908-41C8-8E70-85144C1CA3DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7FA6708-5908-41C8-8E70-85144C1CA3DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7FA6708-5908-41C8-8E70-85144C1CA3DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

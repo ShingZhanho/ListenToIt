@@ -1,6 +1,8 @@
-name: .NET Framework Build Actions
+name: Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ master, dev/**, rebuild/** ]
 
 jobs:
   build:
