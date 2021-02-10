@@ -6,11 +6,7 @@ using ListenToIt.Runner.UpdateService.Options;
 
 namespace ListenToIt.Runner.UpdateService {
     public class Updater {
-        public static int CheckUpdate(CheckOptions options) => StartUpdater(options.GetCmdArgs());
-
-        public static async Task<int> CheckUpdateAsync(CheckOptions options) {
-            return await Task.Run(() => CheckUpdate(options));
-        }
+        public static int Run(CheckOptions options) => StartUpdater(options.GetCmdArgs());
 
         private static int StartUpdater(string args) {
             var suProcess = new Process {

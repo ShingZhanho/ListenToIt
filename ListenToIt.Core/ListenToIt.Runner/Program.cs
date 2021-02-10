@@ -76,12 +76,12 @@ namespace ListenToIt.Runner {
         }*/
 
         // The latest installed version on this computer
-        public static Version LatestVersion;
-        public static bool UpdateAvailable, UpdateDownloaded;
+        private static Version _localLatestVersion, _serverLatestVersion;
+        private static bool _updateAvailable, _updateDownloaded;
 
         public static void Main() {
-            LatestVersion = GetLatest();
-            if (LatestVersion is null) Environment.Exit(1); // exits if no versions installed.
+            _localLatestVersion = GetLatest();
+            if (_localLatestVersion is null) Environment.Exit(1); // exits if no versions installed.
 
             // Check update
             var updateThread = new Thread(CheckAndDownload);
@@ -89,7 +89,7 @@ namespace ListenToIt.Runner {
             
             // Run app
             var exePath = 
-                Path.Combine(Application.StartupPath, LatestVersion.GetVersionString(), "ListenToIt.App.exe");
+                Path.Combine(Application.StartupPath, _localLatestVersion.GetVersionString(), "ListenToIt.App.exe");
             var appProc = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = exePath,
@@ -106,7 +106,7 @@ namespace ListenToIt.Runner {
                 .Where(dir => Version.IsValidRawVersionString(Path.GetFileName(dir)))
                 .Where(dir => File.Exists(Path.Combine(dir, "ListenToIt.App.exe"))).ToList();
 
-            Version latest = null;
+            var latest = new Version(Path.GetFileName(versions[0]));
             for (var i = 1; i < versions.Count; i++) {
                 var ver = new Version[] {
                     new Version(Path.GetFileName(versions[i - 1])),
@@ -120,6 +120,48 @@ namespace ListenToIt.Runner {
 
         private static void CheckAndDownload() {
             // call this method in a new thread
+            // Checks for internet connection
+            try {
+                using (var client = new WebClient())
+                    client.OpenRead(new Uri("https://github.com"));
+            } catch {
+                return;
+            }
+
+            Directory.CreateDirectory(Path.Combine(Application.StartupPath, "./SUCache")); // Creates dir for update cache
+
+            var options = new CheckOptions {
+                CheckOnly = true,
+                CurrentVersion = _localLatestVersion,
+                DownloadDir = Path.Combine(Application.StartupPath, "SUCache"),
+                IncludePrerelease = true
+            };
+            
+            // Checks for update
+            _updateAvailable = Updater.Run(options) == 200;
+            if (!_updateAvailable) return;
+            
+            // Download
+            options.CheckOnly = false;
+            _updateDownloaded = Updater.Run(options) == 0;
+            
+            // Gets the latest downloaded version
+            var downloadedPkgInfo = Directory.GetFiles(Path.Combine(Application.StartupPath, "SUCache"))
+                .Where(file => Path.GetExtension(file) == ".json")
+                .Where(file =>
+                    Version.IsValidRawVersionString(Path.GetFileNameWithoutExtension(file)
+                        .Replace("package_info_", "")))
+                .ToList();
+            _serverLatestVersion = new Version(downloadedPkgInfo[0]);
+            for (var i = 1; i < downloadedPkgInfo.Count; i++) {
+                var ver = new Version[] {
+                    new Version(Path.GetFileNameWithoutExtension(downloadedPkgInfo[i - 1])
+                        .Replace("package_info_", "")),
+                    new Version(Path.GetFileNameWithoutExtension(downloadedPkgInfo[i])
+                        .Replace("package_info_", ""))
+                };
+                _serverLatestVersion = ver[1].IsNewerThan(ver[0]) ? ver[1] : ver[0];
+            }
         }
     }
 }
