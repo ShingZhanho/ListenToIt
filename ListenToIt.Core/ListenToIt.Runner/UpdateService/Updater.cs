@@ -21,7 +21,7 @@ namespace ListenToIt.Runner.UpdateService {
             };
             suProcess.Start();
             if (wait) suProcess.WaitForExit();
-            return suProcess.ExitCode;
+            return suProcess.HasExited ? suProcess.ExitCode : 999;
         }
     }
 }
