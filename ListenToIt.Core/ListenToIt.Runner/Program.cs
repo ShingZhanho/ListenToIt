@@ -87,9 +87,10 @@ namespace ListenToIt.Runner {
                 .Where(file => Path.GetExtension(file) == ".json")
                 .Where(file =>
                     Version.IsValidRawVersionString(Path.GetFileNameWithoutExtension(file)
-                        .Replace("package_info_", "")))
+                        .Replace("package_info_", string.Empty)))
                 .ToList();
-            _serverLatestVersion = new Version(downloadedPkgInfo[0]);
+            _serverLatestVersion = new Version(Path.GetFileNameWithoutExtension(downloadedPkgInfo[0])
+                .Replace("package_info_", string.Empty));
             for (var i = 1; i < downloadedPkgInfo.Count; i++) {
                 var ver = new Version[] {
                     new Version(Path.GetFileNameWithoutExtension(downloadedPkgInfo[i - 1])
@@ -99,6 +100,16 @@ namespace ListenToIt.Runner {
                 };
                 _serverLatestVersion = ver[1].IsNewerThan(ver[0]) ? ver[1] : _serverLatestVersion;
             }
+
+            if (!_updateDownloaded) return; // Exits if not downloaded
+            // Install update
+            var installOpts = new InstallOptions {
+                InstallDir = Application.StartupPath,
+                PackagePath = Path.Combine(Application.StartupPath, "SUCache",
+                    $"package_info_{_serverLatestVersion.GetVersionString()}.json"),
+                RemoveAfterInstall = false
+            };
+            Updater.Run(installOpts);
         }
     }
 }
