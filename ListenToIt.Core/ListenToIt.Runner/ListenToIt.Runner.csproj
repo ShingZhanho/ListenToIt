@@ -48,6 +48,12 @@
     <ItemGroup>
         <Compile Include="Program.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
+        <Compile Include="UpdateService\Options\BaseOptions.cs" />
+        <Compile Include="UpdateService\Options\CheckOptions.cs" />
+        <Compile Include="UpdateService\Options\CleanUpOptions.cs" />
+        <Compile Include="UpdateService\Options\InstallOptions.cs" />
+        <Compile Include="UpdateService\Updater.cs" />
+        <Compile Include="UpdateService\Version.cs" />
         <EmbeddedResource Include="Properties\Resources.resx">
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Resources.Designer.cs</LastGenOutput>
