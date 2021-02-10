@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using CommandLine;
 using ListenToIt.Updater.CmdOptions;
@@ -51,6 +52,15 @@ namespace ListenToIt.Updater {
             
             var cleanupHelper = new CleanUpHelper(options);
             cleanupHelper.Merge();
+            
+            // Restart the Runner
+            new Process {
+                StartInfo = new ProcessStartInfo {
+                    FileName = Path.Combine(Path.GetFullPath("../"), "ListenToIt.Runner.exe"),
+                    CreateNoWindow = false,
+                    UseShellExecute = true
+                }
+            }.Start();
         }
 
         private static void ErrorParsingArgs(IEnumerable<Error> errors) {
