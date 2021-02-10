@@ -12,7 +12,7 @@ namespace ListenToIt.Updater {
         public static void Main(string[] args) {
             var arguments = args;
             // Uncomment the following lines for debugging
-            // arguments = "check -p -d ./ -v 0.1.0.0-beta".Split(' ');
+            // arguments = "check -p -d ./SUCache -v 0.1.0.1-beta -c".Split(' ');
             
             // Parses command line options
             Parser.Default.ParseArguments<UpdateOptions, InstallOptions, CleanUpOptions>(arguments)

@@ -30,7 +30,7 @@ namespace ListenToIt.Runner.UpdateService {
 
         public bool IsNewerThan(Version ver) {
             if (Major > ver.Major) return true;
-            if (Minor > ver.Major) return true;
+            if (Minor > ver.Minor) return true;
             if (Patch > ver.Patch) return true;
             return Revision > ver.Revision;
         }

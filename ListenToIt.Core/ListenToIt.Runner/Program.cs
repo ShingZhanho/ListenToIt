@@ -65,7 +65,7 @@ namespace ListenToIt.Runner {
 
             var latest = new Version(Path.GetFileName(versions[0]));
             for (var i = 1; i < versions.Count; i++) {
-                var ver = new Version[] {
+                var ver = new[] {
                     new Version(Path.GetFileName(versions[i - 1])),
                     new Version(Path.GetFileName(versions[i]))
                 };

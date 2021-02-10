@@ -30,7 +30,8 @@ namespace ListenToIt.Updater.Install {
                 client.Credentials = new Credentials(_options.UserCredentials.ToList()[0],
                     _options.UserCredentials.ToList()[1]);
 
-            var releases = client.Repository.Release.GetAll("ShingZhanho", "ListenToIt").Result;
+            var releases = 
+                client.Repository.Release.GetAll("ShingZhanho", "ListenToIt").Result;
             foreach (var release in releases) {
                 if (!_options.IncludePrerelease)
                     if (release.Prerelease)
