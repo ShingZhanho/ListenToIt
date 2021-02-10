@@ -49,7 +49,7 @@ namespace ListenToIt.Runner {
                     new Version(Path.GetFileName(versions[i - 1])),
                     new Version(Path.GetFileName(versions[i]))
                 };
-                latest = ver[1].IsNewerThan(ver[0]) ? ver[1] : ver[0];
+                latest = ver[1].IsNewerThan(ver[0]) ? ver[1] : latest;
             }
 
             return latest;
@@ -97,7 +97,7 @@ namespace ListenToIt.Runner {
                     new Version(Path.GetFileNameWithoutExtension(downloadedPkgInfo[i])
                         .Replace("package_info_", ""))
                 };
-                _serverLatestVersion = ver[1].IsNewerThan(ver[0]) ? ver[1] : ver[0];
+                _serverLatestVersion = ver[1].IsNewerThan(ver[0]) ? ver[1] : _serverLatestVersion;
             }
         }
     }
